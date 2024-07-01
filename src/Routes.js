@@ -1,5 +1,8 @@
 import React from 'react';
-import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import {
+  createNativeStackNavigator,
+  HeaderBackButton,
+} from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Questionnaire from './screens/Questionnaire';
 import Recommendations from './screens/RecommendationScreen';
@@ -9,7 +12,7 @@ import {t} from './messages';
 import NavigatorUtil from './NavigatorUtil';
 import AboutScreen from './screens/About';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const Route = localState => (
   <Stack.Navigator initialRouteName={'Home'}>

@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
+import type {PropsWithChildren} from 'react';
 import codePush from 'react-native-code-push';
 import {NavigationContainer} from '@react-navigation/native';
 import 'react-native-gesture-handler';
@@ -9,7 +11,7 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './src/reducers/rootReducer';
 import _ from 'lodash';
 import LocalStorage from './src/LocalStorage';
@@ -24,13 +26,18 @@ const theme = {
     primary: colors.primary,
     background: colors.background,
     accent: colors.accent,
+
   },
 };
 
-const store = createStore(rootReducer);
+const store = configureStore({
+  reducer: rootReducer,
+  // Potentially other middleware or enhancers
+});
 
-class App extends Component {
-  constructor(props: P, context: any) {
+
+class App extends Component<PropsWithChildren, any> {
+  constructor(props: PropsWithChildren, context: any) {
     super(props, context);
     this.state = {localState: null};
   }
@@ -42,11 +49,12 @@ class App extends Component {
           if (
             !_.isNil(localState.languageSelected) &&
             !_.isEmpty(localState.languageSelected)
-          )
+          ) {
             changeLanguage(localState.languageSelected);
-          this.setState({localState: localState});
+            this.setState({localState: localState});
+          }
         })
-        .catch(error => this.setState({localState: null}));
+        .catch(_error => this.setState({localState: null}));
       return <ActivityIndicator />;
     }
 
