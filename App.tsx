@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import codePush from 'react-native-code-push';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import Routes from './src/Routes';
 import {
@@ -8,12 +8,12 @@ import {
   DefaultTheme,
   Provider as PaperProvider,
 } from 'react-native-paper';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import rootReducer from './src/reducers/rootReducer';
 import _ from 'lodash';
 import LocalStorage from './src/LocalStorage';
-import {changeLanguage} from './src/messages';
+import { changeLanguage } from './src/messages';
 import colors from './src/colors';
 
 const theme = {
@@ -29,10 +29,14 @@ const theme = {
 
 const store = createStore(rootReducer);
 
-class App extends Component {
-  constructor(props: P, context: any) {
+interface AppState {
+  localState: any | null;
+}
+
+class App extends Component<{}, AppState> {
+  constructor(props: {}, context: any) {
     super(props, context);
-    this.state = {localState: null};
+    this.state = { localState: null };
   }
 
   render() {
@@ -44,9 +48,9 @@ class App extends Component {
             !_.isEmpty(localState.languageSelected)
           )
             changeLanguage(localState.languageSelected);
-          this.setState({localState: localState});
+          this.setState({ localState: localState });
         })
-        .catch(error => this.setState({localState: null}));
+        .catch(error => this.setState({ localState: null }));
       return <ActivityIndicator />;
     }
 
